@@ -72,6 +72,7 @@ class _SignScreenState extends State<SignScreen> {
           const SizedBox(height: 20,),
            signCentre?CircularProgressIndicator(color: Colors.white,): CustomButton(title: 'SignUp',onTap: () {
             saveData();
+            signUp();
           },),
           CustomRowText(firstText: 'All ready you have Account?', secondText: 'Login',onTap:
               () {
@@ -80,5 +81,28 @@ class _SignScreenState extends State<SignScreen> {
         ],
       ),
     );
+  }
+
+  void signUp () async{
+     setState(() {
+       signCentre=true;
+     });
+     String username=nameController.text;
+     String email=emailController.text;
+     String password=passController.text;
+
+     User? user = await auth.signUpWithEmailAndPassword(email, password);
+
+     setState(() {
+       signCentre=false;
+     });
+
+     if (user!= null){
+       Fluttertoast.showToast(msg: 'Signup Created Successfully',
+           backgroundColor: Colors.indigo,textColor: Colors.white);
+       Get.to(()=>HomePage());
+     }else{
+       return null;
+     }
   }
 }

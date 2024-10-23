@@ -72,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
           const SizedBox(height: 20,),
           loginCentre?CircularProgressIndicator(color: Colors.white,):
           CustomButton(title: 'Login',onTap: () {
-            
+            login();
           },),
           CustomRowText(firstText: 'Do"t have Account?', secondText: 'Sign Up',onTap:
             () {
@@ -83,5 +83,26 @@ class _LoginPageState extends State<LoginPage> {
           
     );
   }
+  void login() async{
 
+    setState(() {
+      loginCentre=true;
+    });
+    String email=emailController.text;
+    String password=passController.text;
+
+    User? user=await auth.signInWithEmailAndPassword(email, password);
+
+    setState(() {
+      loginCentre=false;
+    });
+
+    if(user!=null){
+      Fluttertoast.showToast(msg: 'SigIn Your  Successfully Done',
+          backgroundColor: Colors.indigo,textColor: Colors.white);
+      Get.to(()=>HomePage());
+    }else{
+    return null;
+    }
+}
 }
